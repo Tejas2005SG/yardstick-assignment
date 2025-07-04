@@ -2,17 +2,12 @@ import { NextRequest, NextResponse } from 'next/server';
 import dbConnect from '@/lib/db';
 import Budget from '@/models/Budget';
 
-// Define the context type explicitly
-interface Context {
-  params: { id: string };
-}
-
 // PUT: Update a budget by ID
-export async function PUT(req: NextRequest, context: Context) {
+export async function PUT(req: NextRequest, { params }: { params: { id: string } }) {
   await dbConnect();
   try {
     // Validate ID format
-    if (!context.params.id.match(/^[0-9a-fA-F]{24}$/)) {
+    if (!params.id.match(/^[0-9a-fA-F]{24}$/)) {
       return NextResponse.json({ error: 'Invalid budget ID.' }, { status: 400 });
     }
 
@@ -29,7 +24,7 @@ export async function PUT(req: NextRequest, context: Context) {
     }
 
     // Validate month format (YYYY-MM)
-    if (!/^\d{4}-\d{2}$/.test(data.month)) {
+    if (!/^[0-9]{4}-[0-9]{2}$/.test(data.month)) {
       return NextResponse.json({ error: 'Invalid month format. Use YYYY-MM.' }, { status: 400 });
     }
 
@@ -43,14 +38,14 @@ export async function PUT(req: NextRequest, context: Context) {
     const existingBudget = await Budget.findOne({
       category: data.category,
       month: data.month,
-      _id: { $ne: context.params.id },
+      _id: { $ne: params.id },
     });
     if (existingBudget) {
       return NextResponse.json({ error: 'Budget already exists for this category and month.' }, { status: 400 });
     }
 
     const updatedBudget = await Budget.findByIdAndUpdate(
-      context.params.id,
+      params.id,
       {
         amount: Number(data.amount),
         month: data.month,
@@ -71,15 +66,15 @@ export async function PUT(req: NextRequest, context: Context) {
 }
 
 // DELETE: Delete a budget by ID
-export async function DELETE(req: NextRequest, context: Context) {
+export async function DELETE(req: NextRequest, { params }: { params: { id: string } }) {
   await dbConnect();
   try {
     // Validate ID format
-    if (!context.params.id.match(/^[0-9a-fA-F]{24}$/)) {
+    if (!params.id.match(/^[0-9a-fA-F]{24}$/)) {
       return NextResponse.json({ error: 'Invalid budget ID.' }, { status: 400 });
     }
 
-    const deletedBudget = await Budget.findByIdAndDelete(context.params.id);
+    const deletedBudget = await Budget.findByIdAndDelete(params.id);
 
     if (!deletedBudget) {
       return NextResponse.json({ error: 'Budget not found.' }, { status: 404 });
