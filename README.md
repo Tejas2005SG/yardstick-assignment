@@ -1,36 +1,58 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Personal Finance Visualizer
 
-## Getting Started
+A simple, responsive web application to track personal finances, visualize spending patterns, and manage budgets.
 
-First, run the development server:
+## 🚀 Features
+- Add, edit, and delete transactions
+- Categorize expenses
+- Visualize monthly and category-wise spending (bar & pie charts)
+- Set and track monthly budgets per category
+- Dashboard with total expenses, recent transactions, and category summary
+- Responsive, clean UI (shadcn/ui + Tailwind CSS)
+- MongoDB backend (Mongoose)
+- Ready for Vercel/GitHub deployment
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 🛠 Tech Stack
+- **Frontend:** Next.js 13+ (App Router), React, shadcn/ui, Recharts, Tailwind CSS
+- **Backend:** MongoDB (Mongoose), Next.js API Routes
+- **State Management:** React local state
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 📦 Setup Instructions
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. **Clone the repository:**
+   ```bash
+   git clone <your-repo-url>
+   cd yardstick_assignment
+   ```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+2. **Install dependencies:**
+   ```bash
+   npm install
+   ```
 
-## Learn More
+3. **Configure MongoDB:**
+   Create a `.env.local` file in the root:
+   ```env
+   MONGO_URI=mongodb+srv://bhangaletejas003:ZHNH0HUZfL3q4ECO@cluster0.adjo8zd.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+   ```
 
-To learn more about Next.js, take a look at the following resources:
+4. **Run the development server:**
+   ```bash
+   npm run dev
+   ```
+   Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🖥️ Usage
+- Use the **Dashboard** tab for a summary, charts, and insights.
+- Use the **Transactions** tab to add, edit, or delete expenses.
+- Use the **Budgets** tab to set monthly budgets per category and track your progress.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 🌐 Deployment
+- Ready for deployment on [Vercel](https://vercel.com/) or any platform supporting Next.js.
+- Push to GitHub and connect your repo to Vercel for 1-click deployment.
 
-## Deploy on Vercel
+**Live URL:** _Coming soon_
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+© 2024 Personal Finance Visualizer

@@ -1,103 +1,163 @@
-import Image from "next/image";
+"use client";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { LayoutDashboard, ListChecks, Wallet, ArrowRight, TrendingUp, PieChart } from 'lucide-react';
+import Link from 'next/link';
+import { motion } from 'framer-motion';
+import { useTheme } from 'next-themes';
+import { useState, useEffect } from 'react';
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  const { theme } = useTheme();
+  const [mounted, setMounted] = useState(false);
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.2,
+        delayChildren: 0.3
+      }
+    }
+  };
+
+  const cardVariants = {
+    hidden: { y: 20, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1,
+      transition: {
+        duration: 0.5,
+        ease: "easeOut"
+      }
+    }
+  };
+
+  return (
+    <motion.main 
+      initial="hidden"
+      animate="visible"
+      variants={containerVariants}
+      className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-background to-muted/20 px-4 py-12"
+    >
+      <div className="max-w-4xl mx-auto text-center">
+        <motion.div
+          initial={{ y: -20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.5 }}
+          className="mb-8"
         >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
+          <div className="relative inline-block">
+            <PieChart className="absolute -left-10 -top-4 h-8 w-8 text-primary opacity-60" />
+            <TrendingUp className="absolute -right-8 -bottom-4 h-8 w-8 text-primary opacity-60" />
+            <h1 className="text-4xl md:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-purple-600">
+              Personal Finance Visualizer
+            </h1>
+          </div>
+          <p className="text-lg text-muted-foreground mt-6 mb-10 max-w-2xl mx-auto leading-relaxed">
+            Gain <span className="font-medium text-primary">clear insights</span> into your spending habits, 
+            <span className="font-medium text-primary"> visualize</span> your financial health, and 
+            <span className="font-medium text-primary"> optimize</span> your budgets with our intuitive tools.
+          </p>
+        </motion.div>
+
+        <motion.div 
+          variants={containerVariants}
+          className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full"
         >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
+          {/* Dashboard Card */}
+          <Link href="/dashboard" passHref>
+            <motion.div variants={cardVariants} className="h-full">
+              <Card className="hover:shadow-lg transition-shadow group border-2 border-transparent hover:border-primary/20 relative overflow-hidden h-full cursor-pointer">
+                {mounted && (
+                  <div className={`absolute inset-0 bg-gradient-to-br opacity-0 group-hover:opacity-100 transition-opacity duration-300 ${theme === 'dark' ? 'from-blue-900/30 to-transparent' : 'from-blue-100/50 to-transparent'}`} />
+                )}
+                <CardHeader className="flex flex-col items-center">
+                  <div className="p-3 rounded-full bg-blue-100 dark:bg-blue-900/30 mb-4 group-hover:bg-blue-200 dark:group-hover:bg-blue-800/50 transition-colors">
+                    <LayoutDashboard className="h-8 w-8 text-blue-600 dark:text-blue-400 group-hover:scale-110 transition-transform" />
+                  </div>
+                  <CardTitle className="text-xl">Dashboard</CardTitle>
+                  <CardDescription className="text-center mt-2">
+                    Comprehensive overview with interactive charts and financial insights.
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="flex justify-center pb-6">
+                  <Button variant="outline" className="group-hover:bg-primary group-hover:text-white transition-colors">
+                    Explore Dashboard
+                    <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                  </Button>
+                </CardContent>
+              </Card>
+            </motion.div>
+          </Link>
+
+          {/* Transactions Card */}
+          <Link href="/transactions" passHref>
+            <motion.div variants={cardVariants} className="h-full">
+              <Card className="hover:shadow-lg transition-shadow group border-2 border-transparent hover:border-green-500/20 relative overflow-hidden h-full cursor-pointer">
+                {mounted && (
+                  <div className={`absolute inset-0 bg-gradient-to-br opacity-0 group-hover:opacity-100 transition-opacity duration-300 ${theme === 'dark' ? 'from-green-900/30 to-transparent' : 'from-green-100/50 to-transparent'}`} />
+                )}
+                <CardHeader className="flex flex-col items-center">
+                  <div className="p-3 rounded-full bg-green-100 dark:bg-green-900/30 mb-4 group-hover:bg-green-200 dark:group-hover:bg-green-800/50 transition-colors">
+                    <ListChecks className="h-8 w-8 text-green-600 dark:text-green-400 group-hover:scale-110 transition-transform" />
+                  </div>
+                  <CardTitle className="text-xl">Transactions</CardTitle>
+                  <CardDescription className="text-center mt-2">
+                    Manage all your income and expenses with powerful categorization.
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="flex justify-center pb-6">
+                  <Button variant="outline" className="group-hover:bg-green-600 group-hover:text-white transition-colors">
+                    View Transactions
+                    <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                  </Button>
+                </CardContent>
+              </Card>
+            </motion.div>
+          </Link>
+
+          {/* Budgets Card */}
+          <Link href="/budgets" passHref>
+            <motion.div variants={cardVariants} className="h-full">
+              <Card className="hover:shadow-lg transition-shadow group border-2 border-transparent hover:border-purple-500/20 relative overflow-hidden h-full cursor-pointer">
+                {mounted && (
+                  <div className={`absolute inset-0 bg-gradient-to-br opacity-0 group-hover:opacity-100 transition-opacity duration-300 ${theme === 'dark' ? 'from-purple-900/30 to-transparent' : 'from-purple-100/50 to-transparent'}`} />
+                )}
+                <CardHeader className="flex flex-col items-center">
+                  <div className="p-3 rounded-full bg-purple-100 dark:bg-purple-900/30 mb-4 group-hover:bg-purple-200 dark:group-hover:bg-purple-800/50 transition-colors">
+                    <Wallet className="h-8 w-8 text-purple-600 dark:text-purple-400 group-hover:scale-110 transition-transform" />
+                  </div>
+                  <CardTitle className="text-xl">Budgets</CardTitle>
+                  <CardDescription className="text-center mt-2">
+                    Set and track budgets with visual progress indicators and alerts.
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="flex justify-center pb-6">
+                  <Button variant="outline" className="group-hover:bg-purple-600 group-hover:text-white transition-colors">
+                    Manage Budgets
+                    <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                  </Button>
+                </CardContent>
+              </Card>
+            </motion.div>
+          </Link>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.8 }}
+          className="mt-16 text-sm text-muted-foreground"
         >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+          <p>Get started in seconds. No credit card required.</p>
+        </motion.div>
+      </div>
+    </motion.main>
   );
 }
