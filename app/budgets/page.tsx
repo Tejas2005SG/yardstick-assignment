@@ -9,7 +9,7 @@ import { Label } from '@/components/ui/label';
 import { Skeleton } from '@/components/ui/skeleton';
 import { toast } from 'sonner';
 import { CATEGORIES } from '@/lib/categories';
-import BudgetBarChart from '../Components/BudgetBarChart';
+import BudgetBarChart from '../components/BudgetBarChart';
 
 interface Budget {
   _id?: string;

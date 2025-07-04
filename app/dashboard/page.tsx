@@ -2,9 +2,9 @@
 import { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
-import MonthlyBarChart from '../Components/MonthlyBarChart';
-import CategoryPieChart from '../Components/CategoryPieChart';
-import DashboardCards from '../Components/DashboardCards';
+import MonthlyBarChart from '../components/MonthlyBarChart';
+import CategoryPieChart from '../components/CategoryPieChart';
+import DashboardCards from '../components/DashboardCards';
 
 function getCurrentMonth() {
   const d = new Date();
