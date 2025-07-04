@@ -3,11 +3,16 @@ import dbConnect from '@/lib/db';
 import Budget from '@/models/Budget';
 
 // PUT: Update a budget by ID
-export async function PUT(req: NextRequest, { params }: { params: { id: string } }) {
+export async function PUT(
+  req: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
   await dbConnect();
   try {
+    const { id } = await params;
+    
     // Validate ID format
-    if (!params.id.match(/^[0-9a-fA-F]{24}$/)) {
+    if (!id.match(/^[0-9a-fA-F]{24}$/)) {
       return NextResponse.json({ error: 'Invalid budget ID.' }, { status: 400 });
     }
 
@@ -38,14 +43,14 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
     const existingBudget = await Budget.findOne({
       category: data.category,
       month: data.month,
-      _id: { $ne: params.id },
+      _id: { $ne: id },
     });
     if (existingBudget) {
       return NextResponse.json({ error: 'Budget already exists for this category and month.' }, { status: 400 });
     }
 
     const updatedBudget = await Budget.findByIdAndUpdate(
-      params.id,
+      id,
       {
         amount: Number(data.amount),
         month: data.month,
@@ -66,15 +71,20 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
 }
 
 // DELETE: Delete a budget by ID
-export async function DELETE(req: NextRequest, { params }: { params: { id: string } }) {
+export async function DELETE(
+  req: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
   await dbConnect();
   try {
+    const { id } = await params;
+    
     // Validate ID format
-    if (!params.id.match(/^[0-9a-fA-F]{24}$/)) {
+    if (!id.match(/^[0-9a-fA-F]{24}$/)) {
       return NextResponse.json({ error: 'Invalid budget ID.' }, { status: 400 });
     }
 
-    const deletedBudget = await Budget.findByIdAndDelete(params.id);
+    const deletedBudget = await Budget.findByIdAndDelete(id);
 
     if (!deletedBudget) {
       return NextResponse.json({ error: 'Budget not found.' }, { status: 404 });
