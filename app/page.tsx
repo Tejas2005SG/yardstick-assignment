@@ -55,6 +55,29 @@ export default function Home() {
           variants={containerVariants}
           className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full"
         >
+            {/* Analytics Card */}
+          <Link href="/dashboard" passHref>
+            <motion.div variants={cardVariants} className="h-full">
+              <Card className="hover:shadow-md transition-shadow h-full cursor-pointer border">
+                <CardHeader className="flex flex-col items-center">
+                  <div className="p-3 rounded-full bg-muted mb-4">
+                    <BarChart className="h-6 w-6" />
+                  </div>
+                  <CardTitle className="text-lg">Dashborad</CardTitle>
+                  <CardDescription className="text-center mt-2 text-sm">
+                    Visualize your spending patterns with monthly charts and category breakdowns.
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="flex justify-center pb-6">
+                  <Button variant="outline" className="gap-2">
+                    View Dashboard
+                    <ArrowRight className="h-4 w-4" />
+                  </Button>
+                </CardContent>
+              </Card>
+            </motion.div>
+          </Link>
+
           {/* Transactions Card */}
           <Link href="/transactions" passHref>
             <motion.div variants={cardVariants} className="h-full">
@@ -78,28 +101,7 @@ export default function Home() {
             </motion.div>
           </Link>
 
-          {/* Analytics Card */}
-          <Link href="/analytics" passHref>
-            <motion.div variants={cardVariants} className="h-full">
-              <Card className="hover:shadow-md transition-shadow h-full cursor-pointer border">
-                <CardHeader className="flex flex-col items-center">
-                  <div className="p-3 rounded-full bg-muted mb-4">
-                    <BarChart className="h-6 w-6" />
-                  </div>
-                  <CardTitle className="text-lg">Analytics</CardTitle>
-                  <CardDescription className="text-center mt-2 text-sm">
-                    Visualize your spending patterns with monthly charts and category breakdowns.
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="flex justify-center pb-6">
-                  <Button variant="outline" className="gap-2">
-                    View Analytics
-                    <ArrowRight className="h-4 w-4" />
-                  </Button>
-                </CardContent>
-              </Card>
-            </motion.div>
-          </Link>
+        
 
           {/* Budgets Card */}
           <Link href="/budgets" passHref>
