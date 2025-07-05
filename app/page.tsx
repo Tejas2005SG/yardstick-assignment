@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { Button } from '@/components/ui/button';
 import { LayoutDashboard, ListChecks, Wallet, ArrowRight, TrendingUp, PieChart } from 'lucide-react';
 import Link from 'next/link';
-import { motion } from 'framer-motion';
+import { motion, Variants } from 'framer-motion';
 import { useTheme } from 'next-themes';
 import { useState, useEffect } from 'react';
 
@@ -15,7 +15,7 @@ export default function Home() {
     setMounted(true);
   }, []);
 
-  const containerVariants = {
+  const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
@@ -26,7 +26,7 @@ export default function Home() {
     }
   };
 
-  const cardVariants = {
+  const cardVariants: Variants = {
     hidden: { y: 20, opacity: 0 },
     visible: {
       y: 0,
