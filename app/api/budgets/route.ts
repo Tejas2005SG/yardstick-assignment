@@ -3,8 +3,9 @@ import dbConnect from '@/lib/db';
 import Budget from '@/models/Budget';
 
 export async function GET(req: NextRequest) {
-  await dbConnect();
   try {
+    await dbConnect();
+    
     const { searchParams } = new URL(req.url);
     const month = searchParams.get('month');
 
@@ -16,14 +17,21 @@ export async function GET(req: NextRequest) {
     const budgets = await Budget.find(query).sort({ month: -1, category: 1 });
     return NextResponse.json(budgets);
   } catch (error: any) {
-    console.error('GET /api/budgets:', error);
-    return NextResponse.json({ error: 'Failed to fetch budgets.' }, { status: 500 });
+    console.error('GET /api/budgets error:', error);
+    return NextResponse.json(
+      { 
+        error: 'Failed to fetch budgets.',
+        details: error.message 
+      }, 
+      { status: 500 }
+    );
   }
 }
 
 export async function POST(req: NextRequest) {
-  await dbConnect();
   try {
+    await dbConnect();
+    
     const data = await req.json();
 
     // Validate required fields
@@ -62,7 +70,13 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json(budget, { status: 201 });
   } catch (error: any) {
-    console.error('POST /api/budgets:', error);
-    return NextResponse.json({ error: 'Failed to create budget.' }, { status: 500 });
+    console.error('POST /api/budgets error:', error);
+    return NextResponse.json(
+      { 
+        error: 'Failed to create budget.',
+        details: error.message 
+      }, 
+      { status: 500 }
+    );
   }
 }

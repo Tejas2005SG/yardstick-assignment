@@ -5,6 +5,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import MonthlyBarChart from '../components/MonthlyBarChart';
 import CategoryPieChart from '../components/CategoryPieChart';
 import DashboardCards from '../components/DashboardCards';
+import { toast } from 'sonner';
 
 function getCurrentMonth() {
   const d = new Date();
@@ -29,6 +30,19 @@ export default function DashboardPage() {
         fetch('/api/transactions'),
         fetch('/api/budgets'),
       ]);
+      
+      if (!txRes.ok) {
+        const errorData = await txRes.text();
+        console.error('Transactions API error:', txRes.status, errorData);
+        throw new Error(`Failed to fetch transactions: ${txRes.status}`);
+      }
+      
+      if (!budgetRes.ok) {
+        const errorData = await budgetRes.text();
+        console.error('Budgets API error:', budgetRes.status, errorData);
+        throw new Error(`Failed to fetch budgets: ${budgetRes.status}`);
+      }
+      
       const txData = await txRes.json();
       const budgetData = await budgetRes.json();
       setTransactions(txData);
@@ -43,30 +57,23 @@ export default function DashboardPage() {
           overBudget.push(`${b.category} (₹${spent.toFixed(2)} / ₹${b.amount.toFixed(2)})`);
         }
       }
+      
       if (overBudget.length > 0) {
         setInsight(
-          <div className="space-y-1">
-            <div className="font-medium">Budget Exceeded</div>
-            <ul className="text-sm space-y-1">
-              {overBudget.map((item) => (
-                <li key={item} className="flex items-center">
-                  <span className="w-2 h-2 rounded-full bg-foreground mr-2"></span>
-                  {item}
-                </li>
-              ))}
-            </ul>
-          </div>
-        );
-      } else if (monthBudgets.length > 0) {
-        setInsight(
-          <div className="flex items-center">
-            <span className="w-2 h-2 rounded-full bg-foreground mr-2"></span>
-            On track with budgets
+          <div className="text-sm text-red-600 dark:text-red-400">
+            ⚠️ Over budget: {overBudget.join(', ')}
           </div>
         );
       } else {
-        setInsight('No budgets set for this month');
+        setInsight(
+          <div className="text-sm text-green-600 dark:text-green-400">
+            ✅ All categories within budget
+          </div>
+        );
       }
+    } catch (error: any) {
+      console.error('Dashboard fetch error:', error);
+      toast.error(error.message || 'Failed to fetch data');
     } finally {
       setLoading(false);
     }

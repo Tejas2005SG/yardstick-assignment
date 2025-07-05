@@ -45,10 +45,26 @@ export default function BudgetsPage() {
         fetch('/api/budgets'),
         fetch('/api/transactions'),
       ]);
-      setBudgets(await budgetsRes.json());
-      setTransactions(await txRes.json());
-    } catch (e) {
-      toast.error('Failed to fetch budgets or transactions');
+      
+      if (!budgetsRes.ok) {
+        const errorData = await budgetsRes.text();
+        console.error('Budgets API error:', budgetsRes.status, errorData);
+        throw new Error(`Failed to fetch budgets: ${budgetsRes.status}`);
+      }
+      
+      if (!txRes.ok) {
+        const errorData = await txRes.text();
+        console.error('Transactions API error:', txRes.status, errorData);
+        throw new Error(`Failed to fetch transactions: ${txRes.status}`);
+      }
+      
+      const budgetsData = await budgetsRes.json();
+      const txData = await txRes.json();
+      setBudgets(budgetsData);
+      setTransactions(txData);
+    } catch (e: any) {
+      console.error('Fetch data error:', e);
+      toast.error(e.message || 'Failed to fetch budgets or transactions');
     } finally {
       setLoading(false);
     }

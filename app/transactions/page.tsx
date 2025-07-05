@@ -38,10 +38,18 @@ export default function TransactionsPage() {
     setLoading(true);
     try {
       const res = await fetch('/api/transactions');
+      
+      if (!res.ok) {
+        const errorData = await res.text();
+        console.error('Transactions API error:', res.status, errorData);
+        throw new Error(`Failed to fetch transactions: ${res.status}`);
+      }
+      
       const data = await res.json();
       setTransactions(data);
-    } catch (e) {
-      toast.error('Failed to fetch transactions');
+    } catch (e: any) {
+      console.error('Fetch transactions error:', e);
+      toast.error(e.message || 'Failed to fetch transactions');
     } finally {
       setLoading(false);
     }

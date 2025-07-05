@@ -7,8 +7,9 @@ export async function PUT(
   req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  await dbConnect();
   try {
+    await dbConnect();
+    
     const { id } = await params;
     
     // Validate ID format
@@ -65,8 +66,14 @@ export async function PUT(
 
     return NextResponse.json(updatedBudget);
   } catch (error: any) {
-    console.error('PUT /api/budgets/[id]:', error);
-    return NextResponse.json({ error: 'Failed to update budget.' }, { status: 500 });
+    console.error('PUT /api/budgets/[id] error:', error);
+    return NextResponse.json(
+      { 
+        error: 'Failed to update budget.',
+        details: error.message 
+      }, 
+      { status: 500 }
+    );
   }
 }
 
@@ -75,8 +82,9 @@ export async function DELETE(
   req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  await dbConnect();
   try {
+    await dbConnect();
+    
     const { id } = await params;
     
     // Validate ID format
@@ -92,7 +100,13 @@ export async function DELETE(
 
     return NextResponse.json({ message: 'Budget deleted successfully.', success: true });
   } catch (error: any) {
-    console.error('DELETE /api/budgets/[id]:', error);
-    return NextResponse.json({ error: 'Failed to delete budget.' }, { status: 500 });
+    console.error('DELETE /api/budgets/[id] error:', error);
+    return NextResponse.json(
+      { 
+        error: 'Failed to delete budget.',
+        details: error.message 
+      }, 
+      { status: 500 }
+    );
   }
 }

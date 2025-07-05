@@ -6,8 +6,9 @@ export async function DELETE(
   req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  await dbConnect();
   try {
+    await dbConnect();
+    
     const { id } = await params;
     
     if (!id.match(/^[0-9a-fA-F]{24}$/)) {
@@ -21,8 +22,14 @@ export async function DELETE(
 
     return NextResponse.json({ success: true, message: 'Transaction deleted successfully.' });
   } catch (error: any) {
-    console.error('DELETE /api/transactions/[id]:', error);
-    return NextResponse.json({ error: 'Failed to delete transaction.' }, { status: 500 });
+    console.error('DELETE /api/transactions/[id] error:', error);
+    return NextResponse.json(
+      { 
+        error: 'Failed to delete transaction.',
+        details: error.message 
+      }, 
+      { status: 500 }
+    );
   }
 }
 
@@ -30,8 +37,9 @@ export async function PUT(
   req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  await dbConnect();
   try {
+    await dbConnect();
+    
     const { id } = await params;
     
     if (!id.match(/^[0-9a-fA-F]{24}$/)) {
@@ -74,7 +82,13 @@ export async function PUT(
 
     return NextResponse.json(updated);
   } catch (error: any) {
-    console.error('PUT /api/transactions/[id]:', error);
-    return NextResponse.json({ error: 'Failed to update transaction.' }, { status: 500 });
+    console.error('PUT /api/transactions/[id] error:', error);
+    return NextResponse.json(
+      { 
+        error: 'Failed to update transaction.',
+        details: error.message 
+      }, 
+      { status: 500 }
+    );
   }
 }
