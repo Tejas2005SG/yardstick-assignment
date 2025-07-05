@@ -1,58 +1,68 @@
 # Personal Finance Visualizer
+![image](https://github.com/user-attachments/assets/d04ea916-6fd0-45fe-910a-dfd6486d9447)
+![image](https://github.com/user-attachments/assets/91ea2d89-0dfe-44da-8c2e-2f14ebf3b8bf)
 
-A simple, responsive web application to track personal finances, visualize spending patterns, and manage budgets.
+A modern, full-stack web app to track your personal finances, visualize spending patterns, and manage budgets—all with a beautiful, responsive UI.
 
-## 🚀 Features
-- Add, edit, and delete transactions
-- Categorize expenses
-- Visualize monthly and category-wise spending (bar & pie charts)
-- Set and track monthly budgets per category
-- Dashboard with total expenses, recent transactions, and category summary
-- Responsive, clean UI (shadcn/ui + Tailwind CSS)
-- MongoDB backend (Mongoose)
-- Ready for Vercel/GitHub deployment
+## ✨ Features
 
-## 🛠 Tech Stack
-- **Frontend:** Next.js 13+ (App Router), React, shadcn/ui, Recharts, Tailwind CSS
-- **Backend:** MongoDB (Mongoose), Next.js API Routes
-- **State Management:** React local state
+- **Dashboard Overview:**  
+  See your total expenses, recent transactions, category summaries, and budget insights at a glance.
 
-## 📦 Setup Instructions
+- **Transactions Management:**  
+  Add, edit, and delete transactions. Categorize your expenses for better tracking.
 
-1. **Clone the repository:**
-   ```bash
-   git clone <your-repo-url>
-   cd yardstick_assignment
-   ```
+- **Budgets:**  
+  Set monthly budgets per category and monitor your progress.
 
-2. **Install dependencies:**
-   ```bash
-   npm install
-   ```
+- **Visualizations:**  
+  - **Monthly Trend:** Bar chart of your spending over time.
+  - **Category Distribution:** Pie chart breakdown of expenses by category.
 
-3. **Configure MongoDB:**
-   Create a `.env.local` file in the root:
-   ```env
-   MONGO_URI=mongodb+srv://bhangaletejas003:ZHNH0HUZfL3q4ECO@cluster0.adjo8zd.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
-   ```
+- **Dark/Light Mode:**  
+  Seamless theme toggle for comfortable viewing.
 
-4. **Run the development server:**
-   ```bash
-   npm run dev
-   ```
-   Open [http://localhost:3000](http://localhost:3000) in your browser.
+- **Responsive Design:**  
+  Works beautifully on desktop and mobile.
 
-## 🖥️ Usage
-- Use the **Dashboard** tab for a summary, charts, and insights.
-- Use the **Transactions** tab to add, edit, or delete expenses.
-- Use the **Budgets** tab to set monthly budgets per category and track your progress.
-
-## 🌐 Deployment
-- Ready for deployment on [Vercel](https://vercel.com/) or any platform supporting Next.js.
-- Push to GitHub and connect your repo to Vercel for 1-click deployment.
-
-**Live URL:** _Coming soon_
+- **Modern UI:**  
+  Built with [shadcn/ui](https://ui.shadcn.com/), [Tailwind CSS](https://tailwindcss.com/), and [Recharts](https://recharts.org/).
 
 ---
 
-© 2024 Personal Finance Visualizer
+## 🛠️ Tech Stack
+
+- **Frontend:** Next.js 13+ (App Router), React, shadcn/ui, Tailwind CSS, Recharts
+- **Backend:** Next.js API Routes, MongoDB (Mongoose)
+- **State Management:** React local state
+- **UI/UX:** shadcn/ui, Tailwind CSS, sonner (toasts)
+
+---
+
+## 📸 Screenshots
+
+> _Add your own screenshots here!_
+
+---
+
+## 🚀 Usage
+
+- **Dashboard:**  
+  Get a quick summary of your finances, trends, and insights.
+
+- **Transactions:**  
+  Add new expenses, edit or delete existing ones, and categorize your spending.
+
+- **Budgets:**  
+  Set and track monthly budgets for each category.
+
+---
+
+## 🤝 Credits
+
+- UI components: [shadcn/ui](https://ui.shadcn.com/)
+- Charts: [Recharts](https://recharts.org/)
+- Icons: [Lucide](https://lucide.dev/)
+
+---
+
