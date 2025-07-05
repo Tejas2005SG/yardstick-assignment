@@ -1,20 +1,11 @@
 "use client";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { LayoutDashboard, ListChecks, Wallet, ArrowRight, TrendingUp, PieChart } from 'lucide-react';
+import { LayoutDashboard, ListChecks, Wallet, ArrowRight, PieChart, BarChart, LineChart } from 'lucide-react';
 import Link from 'next/link';
 import { motion, Variants } from 'framer-motion';
-import { useTheme } from 'next-themes';
-import { useState, useEffect } from 'react';
 
 export default function Home() {
-  const { theme } = useTheme();
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
   const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: {
@@ -43,26 +34,20 @@ export default function Home() {
       initial="hidden"
       animate="visible"
       variants={containerVariants}
-      className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-background to-muted/20 px-4 py-12"
+      className="min-h-screen flex flex-col items-center justify-center bg-background px-4 py-12"
     >
       <div className="max-w-4xl mx-auto text-center">
         <motion.div
           initial={{ y: -20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.5 }}
-          className="mb-8"
+          className="mb-12"
         >
-          <div className="relative inline-block">
-            <PieChart className="absolute -left-10 -top-4 h-8 w-8 text-primary opacity-60" />
-            <TrendingUp className="absolute -right-8 -bottom-4 h-8 w-8 text-primary opacity-60" />
-            <h1 className="text-4xl md:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-purple-600">
-              Personal Finance Visualizer
-            </h1>
-          </div>
-          <p className="text-lg text-muted-foreground mt-6 mb-10 max-w-2xl mx-auto leading-relaxed">
-            Gain <span className="font-medium text-primary">clear insights</span> into your spending habits, 
-            <span className="font-medium text-primary"> visualize</span> your financial health, and 
-            <span className="font-medium text-primary"> optimize</span> your budgets with our intuitive tools.
+          <h1 className="text-3xl md:text-4xl font-bold tracking-tight">
+            Personal Finance Visualizer
+          </h1>
+          <p className="text-muted-foreground mt-4 mb-8 max-w-2xl mx-auto leading-relaxed">
+            Track, analyze, and optimize your personal finances with clear visualizations and actionable insights.
           </p>
         </motion.div>
 
@@ -70,52 +55,46 @@ export default function Home() {
           variants={containerVariants}
           className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full"
         >
-          {/* Dashboard Card */}
-          <Link href="/dashboard" passHref>
+          {/* Transactions Card */}
+          <Link href="/transactions" passHref>
             <motion.div variants={cardVariants} className="h-full">
-              <Card className="hover:shadow-lg transition-shadow group border-2 border-transparent hover:border-primary/20 relative overflow-hidden h-full cursor-pointer">
-                {mounted && (
-                  <div className={`absolute inset-0 bg-gradient-to-br opacity-0 group-hover:opacity-100 transition-opacity duration-300 ${theme === 'dark' ? 'from-blue-900/30 to-transparent' : 'from-blue-100/50 to-transparent'}`} />
-                )}
+              <Card className="hover:shadow-md transition-shadow h-full cursor-pointer border">
                 <CardHeader className="flex flex-col items-center">
-                  <div className="p-3 rounded-full bg-blue-100 dark:bg-blue-900/30 mb-4 group-hover:bg-blue-200 dark:group-hover:bg-blue-800/50 transition-colors">
-                    <LayoutDashboard className="h-8 w-8 text-blue-600 dark:text-blue-400 group-hover:scale-110 transition-transform" />
+                  <div className="p-3 rounded-full bg-muted mb-4">
+                    <ListChecks className="h-6 w-6" />
                   </div>
-                  <CardTitle className="text-xl">Dashboard</CardTitle>
-                  <CardDescription className="text-center mt-2">
-                    Comprehensive overview with interactive charts and financial insights.
+                  <CardTitle className="text-lg">Transactions</CardTitle>
+                  <CardDescription className="text-center mt-2 text-sm">
+                    Add, edit, and track all your income and expenses with detailed records.
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="flex justify-center pb-6">
-                  <Button variant="outline" className="group-hover:bg-primary group-hover:text-white transition-colors">
-                    Explore Dashboard
-                    <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                  <Button variant="outline" className="gap-2">
+                    Manage Transactions
+                    <ArrowRight className="h-4 w-4" />
                   </Button>
                 </CardContent>
               </Card>
             </motion.div>
           </Link>
 
-          {/* Transactions Card */}
-          <Link href="/transactions" passHref>
+          {/* Analytics Card */}
+          <Link href="/analytics" passHref>
             <motion.div variants={cardVariants} className="h-full">
-              <Card className="hover:shadow-lg transition-shadow group border-2 border-transparent hover:border-green-500/20 relative overflow-hidden h-full cursor-pointer">
-                {mounted && (
-                  <div className={`absolute inset-0 bg-gradient-to-br opacity-0 group-hover:opacity-100 transition-opacity duration-300 ${theme === 'dark' ? 'from-green-900/30 to-transparent' : 'from-green-100/50 to-transparent'}`} />
-                )}
+              <Card className="hover:shadow-md transition-shadow h-full cursor-pointer border">
                 <CardHeader className="flex flex-col items-center">
-                  <div className="p-3 rounded-full bg-green-100 dark:bg-green-900/30 mb-4 group-hover:bg-green-200 dark:group-hover:bg-green-800/50 transition-colors">
-                    <ListChecks className="h-8 w-8 text-green-600 dark:text-green-400 group-hover:scale-110 transition-transform" />
+                  <div className="p-3 rounded-full bg-muted mb-4">
+                    <BarChart className="h-6 w-6" />
                   </div>
-                  <CardTitle className="text-xl">Transactions</CardTitle>
-                  <CardDescription className="text-center mt-2">
-                    Manage all your income and expenses with powerful categorization.
+                  <CardTitle className="text-lg">Analytics</CardTitle>
+                  <CardDescription className="text-center mt-2 text-sm">
+                    Visualize your spending patterns with monthly charts and category breakdowns.
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="flex justify-center pb-6">
-                  <Button variant="outline" className="group-hover:bg-green-600 group-hover:text-white transition-colors">
-                    View Transactions
-                    <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                  <Button variant="outline" className="gap-2">
+                    View Analytics
+                    <ArrowRight className="h-4 w-4" />
                   </Button>
                 </CardContent>
               </Card>
@@ -125,23 +104,20 @@ export default function Home() {
           {/* Budgets Card */}
           <Link href="/budgets" passHref>
             <motion.div variants={cardVariants} className="h-full">
-              <Card className="hover:shadow-lg transition-shadow group border-2 border-transparent hover:border-purple-500/20 relative overflow-hidden h-full cursor-pointer">
-                {mounted && (
-                  <div className={`absolute inset-0 bg-gradient-to-br opacity-0 group-hover:opacity-100 transition-opacity duration-300 ${theme === 'dark' ? 'from-purple-900/30 to-transparent' : 'from-purple-100/50 to-transparent'}`} />
-                )}
+              <Card className="hover:shadow-md transition-shadow h-full cursor-pointer border">
                 <CardHeader className="flex flex-col items-center">
-                  <div className="p-3 rounded-full bg-purple-100 dark:bg-purple-900/30 mb-4 group-hover:bg-purple-200 dark:group-hover:bg-purple-800/50 transition-colors">
-                    <Wallet className="h-8 w-8 text-purple-600 dark:text-purple-400 group-hover:scale-110 transition-transform" />
+                  <div className="p-3 rounded-full bg-muted mb-4">
+                    <LineChart className="h-6 w-6" />
                   </div>
-                  <CardTitle className="text-xl">Budgets</CardTitle>
-                  <CardDescription className="text-center mt-2">
-                    Set and track budgets with visual progress indicators and alerts.
+                  <CardTitle className="text-lg">Budgets</CardTitle>
+                  <CardDescription className="text-center mt-2 text-sm">
+                    Set monthly budgets and track your progress against spending goals.
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="flex justify-center pb-6">
-                  <Button variant="outline" className="group-hover:bg-purple-600 group-hover:text-white transition-colors">
+                  <Button variant="outline" className="gap-2">
                     Manage Budgets
-                    <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                    <ArrowRight className="h-4 w-4" />
                   </Button>
                 </CardContent>
               </Card>
@@ -149,14 +125,32 @@ export default function Home() {
           </Link>
         </motion.div>
 
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.8 }}
-          className="mt-16 text-sm text-muted-foreground"
-        >
-          <p>Get started in seconds. No credit card required.</p>
-        </motion.div>
+        <div className="mt-16 border-t pt-8">
+          <h2 className="text-xl font-semibold mb-4">Key Features</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm text-muted-foreground">
+            <div className="space-y-2">
+              <h3 className="font-medium text-foreground">Transaction Management</h3>
+              <p>Record all financial transactions with dates and descriptions</p>
+              <p>Edit or delete entries as needed</p>
+            </div>
+            <div className="space-y-2">
+              <h3 className="font-medium text-foreground">Visual Analytics</h3>
+              <p>Monthly expense tracking with bar charts</p>
+              <p>Category breakdown with pie charts</p>
+            </div>
+            <div className="space-y-2">
+              <h3 className="font-medium text-foreground">Budget Planning</h3>
+              <p>Set monthly budgets by category</p>
+              <p>Track actual spending vs budget</p>
+            </div>
+          </div>
+        </div>
+
+      <div className="mt-16 border-t pt-8 text-foreground text-sm">
+        
+        <h2>© Copyright 2025 ersonal Finance Visualizer</h2>
+      </div>
+
       </div>
     </motion.main>
   );

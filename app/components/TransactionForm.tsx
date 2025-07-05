@@ -68,14 +68,14 @@ export default function TransactionForm({ initialData, onSubmit, onCancel, loadi
             step="0.01"
             required
           />
-          <label htmlFor="amount" className="absolute left-0 -top-5 text-xs text-gray-500 dark:text-gray-400">
+          <label htmlFor="amount" className="absolute left-0 -top-5 py-3 text-xs text-gray-500 dark:text-gray-400">
             Amount
           </label>
         </div>
 
         {/* Date Field */}
         <div className="relative">
-          <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-gray-400">
+          <div className="absolute inset-y-0 left-0 flex items-center mb-2 pointer-events-none text-gray-400">
             <CalendarDays className="h-5 w-5" />
           </div>
           <input

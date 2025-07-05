@@ -128,7 +128,7 @@ export default function TransactionsPage() {
   }
 
   return (
-    <main className="min-h-screen bg-background px-4 py-8 flex flex-col items-center">
+    <main className="min-h-screen bg-background px-4 py-20 flex flex-col items-center">
       <div className="w-full max-w-3xl">
         <div className="flex items-center justify-between mb-6">
           <h1 className="text-3xl font-bold">Transactions</h1>
@@ -148,10 +148,10 @@ export default function TransactionsPage() {
                 {transactions.map((tx) => (
                   <li key={tx._id} className="py-3 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
                     <div className="flex-1">
-                      <div className="font-semibold">₹{tx.amount.toFixed(2)} <span className="ml-2 text-xs bg-blue-100 text-blue-700 px-2 py-0.5 rounded">{tx.category}</span></div>
-                      <div className="text-gray-500 text-sm">{format(new Date(tx.date), 'yyyy-MM-dd')} &mdash; {tx.description}</div>
+                      <div className="font-semibold py-1">₹{tx.amount.toFixed(2)} <span className="ml-2 text-xs bg-blue-100 text-blue-700 px-2 py-0.5 rounded">{tx.category}</span></div>
+                      <div className="text-gray-500 text-sm py-1">{format(new Date(tx.date), 'yyyy-MM-dd')} &mdash; {tx.description}</div>
                     </div>
-                    <div className="flex gap-2 mt-2 sm:mt-0">
+                    <div className="flex justify-end gap-2  sm:mt-0">
                       <Button variant="outline" size="sm" onClick={() => openEditDialog(tx)} disabled={formLoading}>Edit</Button>
                       <Button variant="destructive" size="sm" onClick={() => handleDelete(tx._id!)} disabled={formLoading}>Delete</Button>
                     </div>
@@ -170,7 +170,7 @@ export default function TransactionsPage() {
             </DialogHeader>
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <Label htmlFor="amount">Amount</Label>
+                <Label htmlFor="amount" className='mb-2'>Amount</Label>
                 <Input
                   id="amount"
                   name="amount"
@@ -184,7 +184,7 @@ export default function TransactionsPage() {
                 />
               </div>
               <div>
-                <Label htmlFor="date">Date</Label>
+                <Label htmlFor="date" className='mb-2'>Date</Label>
                 <Input
                   id="date"
                   name="date"
@@ -196,7 +196,7 @@ export default function TransactionsPage() {
                 />
               </div>
               <div>
-                <Label htmlFor="description">Description</Label>
+                <Label htmlFor="description" className='mb-2'>Description</Label>
                 <Input
                   id="description"
                   name="description"
@@ -208,7 +208,7 @@ export default function TransactionsPage() {
                 />
               </div>
               <div>
-                <Label htmlFor="category">Category</Label>
+                <Label htmlFor="category" className='mb-2'>Category</Label>
                 <Select
                   value={form.category}
                   onValueChange={(value) => setForm({ ...form, category: value })}

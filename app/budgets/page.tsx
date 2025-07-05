@@ -134,7 +134,7 @@ export default function BudgetsPage() {
   }
 
   return (
-    <main className="min-h-screen bg-background px-4 py-8 flex flex-col items-center">
+    <main className="min-h-screen bg-background px-4 py-20 flex flex-col items-center">
       <div className="w-full max-w-3xl">
         <div className="flex items-center justify-between mb-6">
           <h1 className="text-3xl font-bold">Budgets</h1>
@@ -147,13 +147,13 @@ export default function BudgetsPage() {
           <CardContent>
             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-2 mb-4">
               <div>
-                <Label htmlFor="month">Month:</Label>
+                <Label htmlFor="month" className='mb-3'>Month:</Label>
                 <Input
                   id="month"
                   type="month"
                   value={selectedMonth}
                   onChange={(e) => setSelectedMonth(e.target.value)}
-                  className="w-40"
+                  className="w-52"
                 />
               </div>
             </div>
@@ -181,7 +181,7 @@ export default function BudgetsPage() {
                       <span className="font-semibold">{b.category}</span> <span className="text-xs">({b.month})</span>
                       <span className="ml-2">Budget: ₹{b.amount.toFixed(2)}</span>
                     </div>
-                    <div className="flex gap-2 mt-2 sm:mt-0">
+                    <div className="flex justify-end gap-2 mt-2 sm:mt-0">
                       <Button variant="outline" size="sm" onClick={() => openEditDialog(b)} disabled={formLoading}>Edit</Button>
                       <Button variant="destructive" size="sm" onClick={() => handleDelete(b._id!)} disabled={formLoading}>Delete</Button>
                     </div>
@@ -200,14 +200,14 @@ export default function BudgetsPage() {
             </DialogHeader>
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <Label htmlFor="category">Category</Label>
+                <Label htmlFor="category" className='mb-3'>Category</Label>
                 <Select
                   value={form.category}
                   onValueChange={(value) => setForm({ ...form, category: value })}
                   disabled={formLoading}
                   required
                 >
-                  <SelectTrigger id="category">
+                  <SelectTrigger id="category"  >
                     <SelectValue placeholder="Select category" />
                   </SelectTrigger>
                   <SelectContent>
@@ -218,7 +218,7 @@ export default function BudgetsPage() {
                 </Select>
               </div>
               <div>
-                <Label htmlFor="month">Month</Label>
+                <Label htmlFor="month" className='mb-3'>Month</Label>
                 <Input
                   id="month"
                   name="month"
@@ -230,7 +230,7 @@ export default function BudgetsPage() {
                 />
               </div>
               <div>
-                <Label htmlFor="amount">Budget Amount</Label>
+                <Label htmlFor="amount" className='mb-3'>Budget Amount</Label>
                 <Input
                   id="amount"
                   name="amount"
