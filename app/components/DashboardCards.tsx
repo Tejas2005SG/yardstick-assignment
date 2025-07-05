@@ -1,14 +1,29 @@
 "use client";
+
 import { Transaction } from './TransactionList';
 import { Budget } from './BudgetBarChart';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import MonthlyBarChart from './MonthlyBarChart';
+import CategoryPieChart from './CategoryPieChart';
 
-function getTotalExpenses(transactions: Transaction[], month: string) {
+interface CategorySummaryItem {
+  category: string;
+  total: number;
+}
+
+interface DashboardCardsProps {
+  transactions: Transaction[];
+  budgets: Budget[];
+  month: string;
+}
+
+function getTotalExpenses(transactions: Transaction[], month: string): number {
   return transactions
     .filter((tx) => tx.date.startsWith(month))
     .reduce((sum, tx) => sum + tx.amount, 0);
 }
 
-function getCategorySummary(transactions: Transaction[], month: string) {
+function getCategorySummary(transactions: Transaction[], month: string): CategorySummaryItem[] {
   const summary: Record<string, number> = {};
   transactions.forEach((tx) => {
     if (tx.date.startsWith(month)) {
@@ -20,50 +35,79 @@ function getCategorySummary(transactions: Transaction[], month: string) {
     .sort((a, b) => b.total - a.total);
 }
 
-export default function DashboardCards({ transactions, budgets, month }: { transactions: Transaction[]; budgets: Budget[]; month: string }) {
-  const total = getTotalExpenses(transactions, month);
-  const recent = transactions.filter((tx) => tx.date.startsWith(month)).slice(0, 5);
-  const categorySummary = getCategorySummary(transactions, month);
+function isSameMonth(txDate: string, month: string): boolean {
+  const d = new Date(txDate);
+  const txMonth = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
+  return txMonth === month;
+}
+
+export default function DashboardCards({ transactions, budgets, month }: DashboardCardsProps) {
+  const monthTx = transactions.filter(tx => isSameMonth(tx.date, month));
+  const sortedTx = [...monthTx].sort((a, b) => b.date.localeCompare(a.date));
+  const recentTx = sortedTx.slice(0, 5);
+
+  const categorySummary: Record<string, number> = {};
+  monthTx.forEach(tx => {
+    categorySummary[tx.category] = (categorySummary[tx.category] || 0) + tx.amount;
+  });
+
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
       {/* Total Expenses */}
-      <div className="bg-blue-600 text-white rounded-lg p-4 shadow flex flex-col items-center">
-        <div className="text-lg font-semibold">Total Expenses</div>
-        <div className="text-2xl font-bold mt-2">₹{total.toFixed(2)}</div>
-        <div className="text-xs mt-1">({month})</div>
-      </div>
-      {/* Most Recent Transactions */}
-      <div className="bg-white dark:bg-zinc-900 rounded-lg p-4 shadow">
-        <div className="text-lg font-semibold mb-2">Recent Transactions</div>
-        {recent.length === 0 ? (
-          <div className="text-gray-500 text-center">No transactions.</div>
-        ) : (
-          <ul className="text-sm divide-y divide-gray-200 dark:divide-zinc-800">
-            {recent.map((tx) => (
-              <li key={tx._id} className="py-1 flex flex-col">
-                <span className="font-medium">₹{tx.amount.toFixed(2)}</span>
-                <span className="text-xs text-gray-500">{new Date(tx.date).toLocaleDateString()} &mdash; {tx.description} ({tx.category})</span>
-              </li>
-            ))}
-          </ul>
-        )}
-      </div>
+      <Card>
+        <CardHeader>
+          <CardTitle>Total Expenses</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="text-3xl font-bold">
+            ₹{monthTx.reduce((sum, tx) => sum + tx.amount, 0).toLocaleString('en-IN', { minimumFractionDigits: 2 })}
+          </div>
+          <div className="text-xs text-muted-foreground mt-1">{month}</div>
+        </CardContent>
+      </Card>
+
+      {/* Recent Transactions */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Recent Transactions</CardTitle>
+        </CardHeader>
+        <CardContent>
+          {recentTx.length === 0 ? (
+            <div className="text-muted-foreground text-sm">No transactions.</div>
+          ) : (
+            <ul className="text-sm space-y-1">
+              {recentTx.map(tx => (
+                <li key={tx._id ?? `${tx.date}-${tx.amount}-${tx.category}`}>
+                  <span className="font-medium">{tx.description}</span> — ₹{tx.amount}{" "}
+                  <span className="text-xs text-muted-foreground">({tx.category})</span>
+                </li>
+              ))}
+            </ul>
+          )}
+        </CardContent>
+      </Card>
+
       {/* Category Summary */}
-      <div className="bg-white dark:bg-zinc-900 rounded-lg p-4 shadow">
-        <div className="text-lg font-semibold mb-2">Category Summary</div>
-        {categorySummary.length === 0 ? (
-          <div className="text-gray-500 text-center">No data.</div>
-        ) : (
-          <ul className="text-sm divide-y divide-gray-200 dark:divide-zinc-800">
-            {categorySummary.map((cat) => (
-              <li key={cat.category} className="py-1 flex justify-between">
-                <span>{cat.category}</span>
-                <span className="font-medium">₹{cat.total.toFixed(2)}</span>
-              </li>
-            ))}
-          </ul>
-        )}
-      </div>
+      <Card>
+        <CardHeader>
+          <CardTitle>Category Summary</CardTitle>
+        </CardHeader>
+        <CardContent>
+          {Object.keys(categorySummary).length === 0 ? (
+            <div className="text-muted-foreground text-sm">No data.</div>
+          ) : (
+            <ul className="text-sm space-y-1">
+              {Object.entries(categorySummary).map(([cat, amt]) => (
+                <li key={cat}>
+                  <span className="font-medium">{cat}</span>: ₹{amt}
+                </li>
+              ))}
+            </ul>
+          )}
+        </CardContent>
+      </Card>
+
+      {/* Optional: Add Pie or Bar Charts here if needed */}
     </div>
   );
-} 
+}

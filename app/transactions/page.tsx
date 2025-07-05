@@ -136,7 +136,7 @@ export default function TransactionsPage() {
   }
 
   return (
-    <main className="min-h-screen bg-background px-4 py-20 flex flex-col items-center">
+    <main className="min-h-screen bg-background px-4 py-9 flex flex-col items-center">
       <div className="w-full max-w-3xl">
         <div className="flex items-center justify-between mb-6">
           <h1 className="text-3xl font-bold">Transactions</h1>

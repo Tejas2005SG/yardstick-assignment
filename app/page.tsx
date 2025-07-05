@@ -153,7 +153,7 @@ export default function Home() {
         <h2>© Copyright 2025 ersonal Finance Visualizer</h2>
       </div>
 
-      </div>
+    </div>
     </motion.main>
   );
 }
