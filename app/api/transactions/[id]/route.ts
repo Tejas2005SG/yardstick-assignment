@@ -4,15 +4,17 @@ import Transaction from '@/models/Transaction';
 
 export async function DELETE(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   await dbConnect();
   try {
-    if (!params.id.match(/^[0-9a-fA-F]{24}$/)) {
+    const { id } = await params;
+    
+    if (!id.match(/^[0-9a-fA-F]{24}$/)) {
       return NextResponse.json({ error: 'Invalid transaction ID.' }, { status: 400 });
     }
 
-    const transaction = await Transaction.findByIdAndDelete(params.id);
+    const transaction = await Transaction.findByIdAndDelete(id);
     if (!transaction) {
       return NextResponse.json({ error: 'Transaction not found.' }, { status: 404 });
     }
@@ -26,11 +28,13 @@ export async function DELETE(
 
 export async function PUT(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   await dbConnect();
   try {
-    if (!params.id.match(/^[0-9a-fA-F]{24}$/)) {
+    const { id } = await params;
+    
+    if (!id.match(/^[0-9a-fA-F]{24}$/)) {
       return NextResponse.json({ error: 'Invalid transaction ID.' }, { status: 400 });
     }
 
@@ -54,7 +58,7 @@ export async function PUT(
     }
 
     const updated = await Transaction.findByIdAndUpdate(
-      params.id,
+      id,
       {
         amount: Number(data.amount),
         date: new Date(data.date),
