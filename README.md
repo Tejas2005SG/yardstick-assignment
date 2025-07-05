@@ -1,6 +1,5 @@
 # Personal Finance Visualizer
-![image](https://github.com/user-attachments/assets/d04ea916-6fd0-45fe-910a-dfd6486d9447)
-![image](https://github.com/user-attachments/assets/91ea2d89-0dfe-44da-8c2e-2f14ebf3b8bf)
+
 
 A modern, full-stack web app to track your personal finances, visualize spending patterns, and manage budgets—all with a beautiful, responsive UI.
 
@@ -41,7 +40,15 @@ A modern, full-stack web app to track your personal finances, visualize spending
 
 ## 📸 Screenshots
 
-> _Add your own screenshots here!_
+![image](https://github.com/user-attachments/assets/d04ea916-6fd0-45fe-910a-dfd6486d9447)
+
+![image](https://github.com/user-attachments/assets/91ea2d89-0dfe-44da-8c2e-2f14ebf3b8bf)
+
+![image](https://github.com/user-attachments/assets/eb72bd90-5ec7-4149-83a6-2489fb97a7ea)
+
+![image](https://github.com/user-attachments/assets/6edc152b-1f4b-4d13-b99f-424dd5b9ac38)
+
+![image](https://github.com/user-attachments/assets/5180e1ea-f620-4a61-8070-c2e39c045f54)
 
 ---
 
