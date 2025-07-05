@@ -8,10 +8,19 @@ export async function DELETE(
 ) {
   await dbConnect();
   try {
-    await Transaction.findByIdAndDelete(params.id);
-    return NextResponse.json({ success: true });
+    if (!params.id.match(/^[0-9a-fA-F]{24}$/)) {
+      return NextResponse.json({ error: 'Invalid transaction ID.' }, { status: 400 });
+    }
+
+    const transaction = await Transaction.findByIdAndDelete(params.id);
+    if (!transaction) {
+      return NextResponse.json({ error: 'Transaction not found.' }, { status: 404 });
+    }
+
+    return NextResponse.json({ success: true, message: 'Transaction deleted successfully.' });
   } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 400 });
+    console.error('DELETE /api/transactions/[id]:', error);
+    return NextResponse.json({ error: 'Failed to delete transaction.' }, { status: 500 });
   }
 }
 
@@ -20,14 +29,48 @@ export async function PUT(
   { params }: { params: { id: string } }
 ) {
   await dbConnect();
-  const data = await req.json();
-  if (!data.amount || !data.date || !data.description || !data.category) {
-    return NextResponse.json({ error: 'All fields are required.' }, { status: 400 });
-  }
   try {
-    const updated = await Transaction.findByIdAndUpdate(params.id, data, { new: true });
+    if (!params.id.match(/^[0-9a-fA-F]{24}$/)) {
+      return NextResponse.json({ error: 'Invalid transaction ID.' }, { status: 400 });
+    }
+
+    const data = await req.json();
+
+    if (!data.amount || !data.date || !data.description || !data.category) {
+      return NextResponse.json({ error: 'Amount, date, description, and category are required.' }, { status: 400 });
+    }
+
+    if (isNaN(data.amount) || data.amount <= 0) {
+      return NextResponse.json({ error: 'Amount must be a positive number.' }, { status: 400 });
+    }
+
+    if (!/^\d{4}-\d{2}-\d{2}/.test(data.date)) {
+      return NextResponse.json({ error: 'Invalid date format. Use YYYY-MM-DD.' }, { status: 400 });
+    }
+
+    const { CATEGORIES } = await import('@/lib/categories');
+    if (!CATEGORIES.includes(data.category)) {
+      return NextResponse.json({ error: 'Invalid category.' }, { status: 400 });
+    }
+
+    const updated = await Transaction.findByIdAndUpdate(
+      params.id,
+      {
+        amount: Number(data.amount),
+        date: new Date(data.date),
+        description: data.description.trim(),
+        category: data.category,
+      },
+      { new: true, runValidators: true }
+    );
+
+    if (!updated) {
+      return NextResponse.json({ error: 'Transaction not found.' }, { status: 404 });
+    }
+
     return NextResponse.json(updated);
   } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 400 });
+    console.error('PUT /api/transactions/[id]:', error);
+    return NextResponse.json({ error: 'Failed to update transaction.' }, { status: 500 });
   }
-} 
+}
